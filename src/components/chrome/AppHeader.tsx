@@ -1,9 +1,10 @@
 // src/components/chrome/AppHeader.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Link as LinkIcon, X } from "lucide-react";
+import { motion } from "framer-motion";
 import ConnectGoogleCalendar from "../calendar/ConnectGoogleCalendar";
 
-// Optional React Router support (falls back gracefully)
+/* Optional React Router support (falls back gracefully) */
 let LinkComp: any = null;
 let useNavigateHook: any = null;
 let useLocationHook: any = null;
@@ -16,19 +17,17 @@ try {
 } catch (_) {}
 
 type Props = {
-  showBack?: boolean; // if undefined, auto-hide on "/"
+  showBack?: boolean;
   backTo?: string;
-
-  // Branding
-  productName?: string;      // default: "ex"
-  productTagline?: string;   // default: "Multi-surface apps"
+  productName?: string;
+  productTagline?: string;
 };
 
 export default function AppHeader({
   showBack,
   backTo,
-  productName = "ex",
-  productTagline = "Multi-surface apps",
+  productName = "Event Extractor",
+  productTagline = "Capture → Review → Add to Calendar",
 }: Props) {
   const navigate = useNavigateHook ? useNavigateHook() : null;
   const location = useLocationHook ? useLocationHook() : null;
@@ -39,6 +38,14 @@ export default function AppHeader({
 
   const resolvedShowBack =
     typeof showBack === "boolean" ? showBack : pathname !== "/";
+
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const LinkEl: React.FC<
     { to: string; className?: string } & React.PropsWithChildren
@@ -54,17 +61,41 @@ export default function AppHeader({
     );
 
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-100 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <header
+      className={[
+        "chakra-petch-regular sticky top-0 z-40", // ✅ font applied globally
+        "backdrop-blur supports-[backdrop-filter]:bg-white/55",
+        "border-b",
+        scrolled
+          ? "bg-white/70 border-zinc-200 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.25)]"
+          : "bg-white/40 border-zinc-100",
+      ].join(" ")}
+    >
+      {/* thin gradient line */}
+      <div className="pointer-events-none h-[2px] w-full bg-gradient-to-r from-indigo-400/40 via-sky-400/40 to-emerald-400/40" />
+
       <div className="mx-auto max-w-6xl px-5 py-3">
         <div className="flex items-center justify-between gap-3">
           {/* Left: Back + Brand */}
           <div className="flex items-center gap-3">
             <BackButton navigate={navigate} backTo={backTo} show={resolvedShowBack} />
+
             <LinkEl to="/" className="group">
               <div className="flex items-center gap-3">
-                <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-indigo-500 via-sky-500 to-emerald-500 shadow-sm" />
+                {/* logo blob */}
+                <div className="relative h-9 w-9 overflow-hidden rounded-xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 via-sky-500 to-emerald-500" />
+                  <div
+                    className="absolute inset-0 opacity-40 mix-blend-overlay"
+                    style={{
+                      background:
+                        "radial-gradient(120% 120% at 0% 100%, rgba(255,255,255,0.5) 0%, transparent 50%)",
+                    }}
+                  />
+                </div>
+
                 <div className="leading-tight">
-                  <div className="text-lg font-semibold text-zinc-900 group-hover:opacity-90">
+                  <div className="text-lg font-semibold tracking-tight text-zinc-900 group-hover:opacity-90">
                     {productName}
                   </div>
                   <div className="text-[11px] uppercase tracking-wider text-zinc-500">
@@ -109,7 +140,7 @@ function BackButton({
   return (
     <button
       onClick={goBack}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white/60 px-3 py-2 text-sm text-zinc-700 hover:bg-white hover:shadow-sm"
+      className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-white hover:shadow"
       aria-label="Go back"
     >
       <ArrowLeft className="h-4 w-4" />
@@ -118,7 +149,6 @@ function BackButton({
   );
 }
 
-/** Small popover that shows <ConnectGoogleCalendar /> */
 function CalendarConnectPopover() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -140,47 +170,66 @@ function CalendarConnectPopover() {
     };
   }, []);
 
+  const btnLabel = useMemo(() => (open ? "Close" : "Connect"), [open]);
+
   return (
     <div className="relative" ref={ref}>
-      <button
+      <motion.button
+        whileHover={{ y: -1 }}
+        whileTap={{ scale: 0.97 }}
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-3.5 py-2 text-sm font-medium text-white shadow hover:bg-zinc-800"
+        className="relative inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-3.5 py-2 text-sm font-medium text-white shadow hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
       >
+        {/* sheen */}
+        <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-lg">
+          <motion.span
+            initial={{ x: "-120%" }}
+            animate={{ x: "120%" }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 h-full w-1/3 -skew-x-12 bg-white/20"
+          />
+        </span>
         <LinkIcon className="h-4 w-4" />
-        Connect
-      </button>
+        {btnLabel}
+      </motion.button>
 
       {open && (
-        <div
+        <motion.div
           role="dialog"
           aria-label="Connect Google Calendar"
-          className="absolute right-0 mt-2 w-[360px] max-w-[90vw] overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 p-3 shadow-xl backdrop-blur"
+          initial={{ opacity: 0, y: 6, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 6, scale: 0.98 }}
+          transition={{ duration: 0.18 }}
+          className="absolute right-0 mt-3 w-[380px] max-w-[92vw] rounded-2xl border border-zinc-200 bg-white/90 p-3 shadow-2xl backdrop-blur"
         >
+          {/* arrow */}
+          <div className="pointer-events-none absolute -top-2 right-6 h-4 w-4 rotate-45 rounded-sm border-l border-t border-zinc-200 bg-white/90" />
+
           <div className="flex items-center justify-between pb-2">
             <div className="text-sm font-semibold text-zinc-900">
               Connect Calendar
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="rounded-md p-1 text-zinc-500 hover:bg-zinc-100"
+              className="rounded-md p-1 text-zinc-500 transition hover:bg-zinc-100"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          {/* Your UI-only component goes here */}
-          <div className="rounded-xl border border-zinc-200 bg-white/70 p-3">
+          <div className="rounded-xl border border-zinc-200 bg-white/70 p-3 shadow-sm">
             <ConnectGoogleCalendar />
           </div>
 
           <p className="mt-2 text-[11px] text-zinc-500">
             Secure • Private • Revoke anytime in your Google Account settings
           </p>
-        </div>
+        </motion.div>
       )}
     </div>
   );

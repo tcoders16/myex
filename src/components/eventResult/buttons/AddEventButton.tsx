@@ -1,6 +1,6 @@
 // src/components/eventResult/buttons/AddEventButton.tsx
-import React, { useMemo } from "react";
-import { motion, type Variant } from "framer-motion";
+import  { useMemo } from "react";
+import { motion,  } from "framer-motion";
 import { Loader2, CalendarPlus, Link as LinkIcon, Check, XCircle } from "lucide-react";
 
 type ResultState = "idle" | "added" | "error";
@@ -76,15 +76,15 @@ export default function AddEventButton({
     : "bg-zinc-900 hover:bg-zinc-800 focus-visible:ring-zinc-900";
 
   // Subtle animation variants
-  const variants = {
-    initial: { scale: 1, x: 0 },
-    success: { scale: [1, 1.02, 1], transition: { duration: 0.35 } },
-    error: {
-      x: [0, -4, 4, -3, 3, -2, 2, 0],
-      transition: { duration: 0.35 },
-    },
-    idle: { scale: 1, x: 0 },
-  } as const;
+  // const variants = {
+  //   initial: { scale: 1, x: 0 },
+  //   success: { scale: [1, 1.02, 1], transition: { duration: 0.35 } },
+  //   error: {
+  //     x: [0, -4, 4, -3, 3, -2, 2, 0],
+  //     transition: { duration: 0.35 },
+  //   },
+  //   idle: { scale: 1, x: 0 },
+  // } as const;
 
   // Pick animation state
   const animateState = isError ? "error" : isAdded ? "success" : "idle";

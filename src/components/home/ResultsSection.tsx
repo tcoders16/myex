@@ -1,7 +1,7 @@
 // src/pages/sections/ResultsSection.tsx
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import { motion } from "framer-motion";
-import SectionTitle from "./SectionTitle";
+
 import EventResults from "../../components/eventResult/EventResults";
 
 // ---------- What this file does ----------
@@ -35,11 +35,11 @@ function ResultsSection({
   const isWorking = loading || busy;
 
   // Compute subtitle once per render for clarity + perf
-  const subtitle = useMemo(() => {
-    if (isWorking) return "Scanning…";
-    if (events?.length) return `${events.length} found`;
-    return "No events yet — paste something above or use the browser helper.";
-  }, [isWorking, events]);
+  // const subtitle = useMemo(() => {
+  //   if (isWorking) return "Scanning…";
+  //   if (events?.length) return `${events.length} found`;
+  //   return "No events yet — paste something above or use the browser helper.";
+  // }, [isWorking, events]);
 
   return (
     <motion.section
@@ -54,7 +54,7 @@ function ResultsSection({
         className,
       ].join(" ")}
     >
-      <SectionTitle title="Extracted events" subtitle={subtitle} />
+
 
       {/* Loading skeleton: lightweight and visually consistent */}
       {isWorking && (

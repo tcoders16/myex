@@ -14,6 +14,13 @@ export type EventLite = {
   url?: string;
 };
 
+
+export type ExtractionResultLite = {
+  events: EventLite[];
+  degraded?: boolean;
+  warnings?: ExtractionWarning[];
+};
+
 export type ExtractionWarning = {
   code:
     | "RELATIVE_DATE"
