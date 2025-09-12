@@ -2,10 +2,12 @@
 /// <reference types="google.accounts" />
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+const SCOPES = import.meta.env.VITE_GOOGLE_SCOPES as string || "https://www.googleapis.com/auth/calendar.events";
+
 const TOKEN_BUFFER_MS = 60_000;
 const GIS_SRC = "https://accounts.google.com/gsi/client";
 const LS_KEY = "gcalAuth:v1";
+
 
 // ---------- Debug helpers ----------
 function log(...args: any[])  { console.log("%c[Auth]", "color:#2563eb", ...args); }
