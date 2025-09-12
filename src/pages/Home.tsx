@@ -14,7 +14,7 @@ import NoteBigCompany from "../components/bigFirms/NoteBigCompany";
 // import GithubTerminalFeed from "../components/fun/GithubTerminalFeed";
 
 export default function Home({ font }: { font: string }) {
-  const { data, loading, error } = useLatestExtract("http://127.0.0.1:4000");
+  const { data, loading, error } = useLatestExtract(`${import.meta.env.VITE_API_BASE}`);
   const events = useMemo(() => normalizeEvents(data), [data]);
   const backendOk = !error;
 
