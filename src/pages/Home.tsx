@@ -10,6 +10,7 @@ import HowItWorks from "../help/HowItWorks";
 
 import { useLatestExtract } from "../hooks/useLatestExtract";
 import { normalizeEvents, type ExtractionResultLite } from "../types/extract";
+import NoteBigCompany from "../components/bigFirms/NoteBigCompany";
 // import GithubTerminalFeed from "../components/fun/GithubTerminalFeed";
 
 export default function Home({ font }: { font: string }) {
@@ -19,10 +20,10 @@ export default function Home({ font }: { font: string }) {
 
   const [notice] = useState<string | null>(null);
 
-  const scrollToPaste = () => {
-    const el = document.querySelector("#paste-extract");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  // const scrollToPaste = () => {
+  //   const el = document.querySelector("#paste-extract");
+  //   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  // };
 
   return (
     <div
@@ -60,13 +61,6 @@ export default function Home({ font }: { font: string }) {
         {!loading && events.length === 0 ? (
           <div className="mx-auto max-w-6xl md:w-[min(880px,100%)] shadow-lg rounded-2xl">
             <WelcomeEmpty
-              onConnect={() => {
-                const btn = document.querySelector(
-                  '[aria-label="Connect Google Calendar"]'
-                ) as HTMLElement | null;
-                btn?.focus();
-              }}
-              onScrollToPaste={scrollToPaste}
             />
           </div>  
         ) : (
@@ -81,7 +75,7 @@ export default function Home({ font }: { font: string }) {
             <div className="mx-auto max-w-6xl px-6 py-6">
 
         {/* <GithubTerminalFeed  /> */}
-
+              <NoteBigCompany />
     </div>
       </main>
     </div>

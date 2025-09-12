@@ -1,14 +1,7 @@
 // src/components/empty/WelcomeEmpty.tsx
 import { motion } from "framer-motion";
-import { CalendarPlus, PlugZap } from "lucide-react";
 
-export default function WelcomeEmpty({
-  onConnect,
-  onScrollToPaste,
-}: {
-  onConnect?: () => void;
-  onScrollToPaste?: () => void;
-}) {
+export default function WelcomeEmpty() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -21,20 +14,8 @@ export default function WelcomeEmpty({
         Connect Google Calendar once, then paste text or use the helper button to extract events.
       </p>
       <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-        <button
-          onClick={onConnect}
-          className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 px-3.5 py-2 text-sm font-medium text-white hover:bg-zinc-800"
-        >
-          <PlugZap className="h-4 w-4" />
-          Connect Calendar
-        </button>
-        <button
-          onClick={onScrollToPaste}
-          className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 py-2 text-sm font-medium text-zinc-900 hover:shadow-sm"
-        >
-          <CalendarPlus className="h-4 w-4" />
-          Try Paste → Extract
-        </button>
+
+
       </div>
     </motion.div>
   );
