@@ -5,7 +5,7 @@ import { Activity, WifiOff } from "lucide-react";
 
 type Ping = { t: number; ms: number; ok: boolean };
 
-export default function HealthPing({ url = "/api/health", everyMs = 7000 }) {
+export default function HealthPing({ url = "/api/healthz", everyMs = 7000 }) {
   const [pings, setPings] = useState<Ping[]>([]);
   const timer = useRef<number | null>(null);
 
