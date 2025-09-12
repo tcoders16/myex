@@ -12,9 +12,9 @@ function normalizeBase(raw?: string) {
 const ENV_BASE = normalizeBase(import.meta.env.VITE_API_BASE);
 // If no env is set, use your deployed backend (HTTPS) as a safe default:
 const DEFAULT_BASE = "https://myexbackend.onrender.com";
-const API_BASE = ENV_BASE || DEFAULT_BASE;
+const VITE_API_BASE = ENV_BASE || DEFAULT_BASE;
 
-export function useLatestExtract(base: string = API_BASE) {
+export function useLatestExtract(base: string = VITE_API_BASE) {
   const [data, setData] = useState<ExtractionResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
