@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Link as LinkIcon, X } from "lucide-react";
 import { motion } from "framer-motion";
 import ConnectGoogleCalendar from "../calendar/ConnectGoogleCalendar";
+import Logo from "../logo/Logo";
+
 
 /* Optional React Router support (falls back gracefully) */
 let LinkComp: any = null;
@@ -83,16 +85,11 @@ export default function AppHeader({
             <LinkEl to="/" className="group">
               <div className="flex items-center gap-3">
                 {/* logo blob */}
-                <div className="relative h-9 w-9 overflow-hidden rounded-xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 via-sky-500 to-emerald-500" />
-                  <div
-                    className="absolute inset-0 opacity-40 mix-blend-overlay"
-                    style={{
-                      background:
-                        "radial-gradient(120% 120% at 0% 100%, rgba(255,255,255,0.5) 0%, transparent 50%)",
-                    }}
-                  />
-                </div>
+
+
+                  <Logo/>
+
+
 
                 <div className="leading-tight">
                   <div className="text-lg font-semibold tracking-tight text-zinc-900 group-hover:opacity-90">
