@@ -52,15 +52,18 @@ export default function Hero({ ok, loading }: { ok: boolean; loading: boolean })
             </div>
 
             {/* Right side */}
-            <div className="flex flex-col items-start gap-2 sm:items-end">
-              <StatusPill ok={ok} loading={loading} />
-              <div className="flex gap-2">
-                <SoftBadge>Local backend</SoftBadge>
-                <SoftBadge>
-                  <ShieldIcon /> Privacy-first
-                </SoftBadge>
-              </div>
+          <div className="flex flex-col items-start gap-2 sm:items-end">
+            <StatusPill ok={ok} loading={loading} />
+            <div className="flex gap-2">
+              <SoftBadge>Local backend</SoftBadge>
+              <SoftBadge>
+                <div className="flex items-center gap-1">
+                  <ShieldIcon />
+                  <span>Privacy-first</span>
+                </div>
+              </SoftBadge>
             </div>
+          </div>
           </div>
         </div>
       </motion.div>
