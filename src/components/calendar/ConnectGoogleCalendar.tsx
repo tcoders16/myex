@@ -5,31 +5,13 @@ import { FaGoogle } from "react-icons/fa";
 import { Check, Loader2 } from "lucide-react";
  import { useGoogleCalendarAuthCtx as useGoogleCalendarAuth } from "../../context/GoogleCalendarAuthContext";
 
-
 function GoogleLogo({ className = "h-6 w-6" }: { className?: string }) {
   return (
-    <svg
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg"
+      alt="Google Logo"
       className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 48 48"
-    >
-      <path
-        fill="#4285F4"
-        d="M24 9.5c3.9 0 6.6 1.6 8.1 2.9l6-6C34.5 2.9 29.6 1 24 1 14.7 1 7 6.8 3.7 14.9l7 5.4C12 14.7 17.4 9.5 24 9.5z"
-      />
-      <path
-        fill="#34A853"
-        d="M46.5 24.5c0-1.6-.1-2.8-.4-4H24v8.1h12.7c-.6 3.2-2.5 6-5.4 7.8l8.3 6.4C43.5 39.2 46.5 32.6 46.5 24.5z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M10.7 28.3c-.5-1.5-.7-3.1-.7-4.8s.3-3.3.7-4.8l-7-5.4C2.6 16.2 2 20 2 23.5s.6 7.3 1.7 10.2l7-5.4z"
-      />
-      <path
-        fill="#EA4335"
-        d="M24 47c6.5 0 12-2.1 16-5.8l-8.3-6.4c-2.3 1.5-5.2 2.4-7.7 2.4-6.6 0-12-5.2-13.6-12l-7 5.4C7 41.3 14.7 47 24 47z"
-      />
-    </svg>
+    />
   );
 }
 export default function ConnectGoogleCalendar() {
@@ -61,11 +43,14 @@ export default function ConnectGoogleCalendar() {
       {/* Header band (subtle gradient) */}
       <div className="rounded-t-2xl bg-[linear-gradient(180deg,#F8FAFC_0%,#FFFFFF_100%)] px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-white">
-            <div className="flex h-16 w-16 items-center justify-center rounded-3xl border border-white/60 bg-white shadow-sm">
-              <GoogleLogo className="h-8 w-8" />
+          {/* Constant outer circle */}
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 bg-white shadow-sm">
+            {/* Inner fixed circle */}
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white">
+              <GoogleLogo className="h-6 w-6" />
             </div>
           </div>
+
           <div className="min-w-0">
             <h2
               id="connect-calendar-title"
@@ -73,8 +58,9 @@ export default function ConnectGoogleCalendar() {
             >
               Connect Google Calendar
             </h2>
-
-            <p className="text-xs text-zinc-600">Sign in once · Scope: calendar.events</p>
+            <p className="text-xs text-zinc-600">
+              Sign in once · Scope: calendar.events
+            </p>
           </div>
         </div>
       </div>

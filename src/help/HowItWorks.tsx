@@ -5,9 +5,11 @@ import {
   FileText,
   CalendarCheck,
   CheckCircle2,
-
   ShieldCheck,
   Sparkles,
+  Mail,
+  FileType2,
+  Blocks,
 } from "lucide-react";
 
 type Props = { backendOk?: boolean };
@@ -23,7 +25,7 @@ export default function HowItWorks({ backendOk }: Props) {
         className="relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/80 shadow-[0_18px_60px_rgba(0,0,0,0.07)] backdrop-blur"
       >
         {/* Ambient glows */}
-        <div className="pointer-events-none absolute -top-28 -left-28 h-72 w-72 rounded-full   blur-3xl" />
+        <div className="pointer-events-none absolute -top-28 -left-28 h-72 w-72 rounded-full blur-3xl" />
         <div className="pointer-events-none absolute -bottom-28 -right-28 h-72 w-72 rounded-full blur-3xl" />
 
         {/* Header bar */}
@@ -33,7 +35,8 @@ export default function HowItWorks({ backendOk }: Props) {
               How it works
             </h2>
             <p className="mt-1 max-w-2xl text-sm text-zinc-600">
-              Extract events from any text in seconds — then add them to your calendar with one click.
+              Extract events from emails today — and soon from Google Docs, Word, Notion, and
+              other surfaces — then add them to your calendar with one click.
             </p>
           </div>
 
@@ -43,41 +46,86 @@ export default function HowItWorks({ backendOk }: Props) {
         {/* Steps timeline */}
         <div className="relative grid gap-4 p-5 md:p-6">
           <Timeline>
+            {/* Email step */}
             <Step
-              icon={<FileText className="h-5 w-5" />}
-              title="Open text anywhere"
+              icon={<Mail className="h-5 w-5" />}
+              title="Open your email"
               body={
                 <>
-                  Works with Google Docs, Word Online, Notion, emails, webpages, and more. Select
-                  or simply view text that includes dates and times.
+                  Works right now with <b>Gmail</b> and <b>Outlook</b>. Just open a message
+                  that includes dates, times, or schedules.
                 </>
               }
               accent="from-indigo-500/20 to-sky-500/20"
             />
+
+            {/* Local extractor */}
             <Step
               icon={<PlugZap className="h-5 w-5" />}
               title="Send to local extractor"
               body={
                 <>
-                  Click the floating <b>Event Extractor</b> helper. Your visible/selected text is sent
-                  to your <span className="font-medium">local backend</span> for private, fast parsing.
+                  Click the floating <b>Event Extractor</b> button. Your visible text is sent
+                  to your <span className="font-medium">local backend</span> for private,
+                  instant parsing.
                 </>
               }
               accent="from-emerald-500/20 to-cyan-500/20"
             />
+
+          {/* Calendar add */}
+          <Step
+            icon={
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg"
+                alt="Google Calendar"
+                className="h-2 w-2 md:h-7 md:w-10"
+              />
+            }
+            title="Review → Add to Google Calendar"
+            body={
+              <>
+                Confirm titles, times, and locations. Then hit{" "}
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 rounded-md border border-zinc-300 bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-700 shadow-sm hover:bg-zinc-50"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg"
+                    alt="Google Calendar"
+                    className="h-4 w-4"
+                  />
+                  <span>Add to Google Calendar</span>
+                </button>{" "}
+                to instantly create events.
+              </>
+            }
+            accent="from-fuchsia-500/20 to-rose-500/20"
+          />
+
+            {/* Future integrations */}
             <Step
-              icon={<CalendarCheck className="h-5 w-5" />}
-              title="Review → Add to Calendar"
+              icon={<FileType2 className="h-5 w-5" />}
+              title="Google Docs & Word (coming soon)"
               body={
                 <>
-                  Confirm titles, times, and locations. Hit{" "}
-                  <span className="rounded-md border border-zinc-300 bg-white/80 px-1.5 py-0.5 text-[11px] text-zinc-800">
-                    Add to Calendar
-                  </span>{" "}
-                  to create events instantly.
+                  Select meeting notes or timelines directly inside <b>Docs</b> or{" "}
+                  <b>Word Online</b>, then extract events with one click.
                 </>
               }
-              accent="from-fuchsia-500/20 to-rose-500/20"
+              accent="from-amber-500/20 to-orange-500/20"
+            />
+
+            <Step
+              icon={<Blocks className="h-5 w-5" />}
+              title="Notion & beyond (coming soon)"
+              body={
+                <>
+                  Capture deadlines and schedules from <b>Notion pages</b> or other tools —
+                  right from your Chrome sidebar.
+                </>
+              }
+              accent="from-purple-500/20 to-pink-500/20"
             />
           </Timeline>
         </div>
@@ -88,7 +136,7 @@ export default function HowItWorks({ backendOk }: Props) {
             <Pill
               icon={<ShieldCheck className="h-4 w-4" />}
               label="Privacy-first"
-              desc="All extraction runs locally — your text stays on your machine."
+              desc="All extraction runs locally — your text never leaves your machine."
             />
             <Pill
               icon={<Sparkles className="h-4 w-4" />}
@@ -153,13 +201,17 @@ function Step({
   body: React.ReactNode;
   accent?: string;
 }) {
+  const isComingSoon = title.toLowerCase().includes("coming soon");
+
   return (
     <motion.li
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20% 0px -10% 0px" }}
       transition={{ duration: 0.22 }}
-      className="group relative grid grid-cols-[40px_1fr] items-start gap-3 md:grid-cols-[48px_1fr]"
+      className={`group relative grid grid-cols-[40px_1fr] items-start gap-3 md:grid-cols-[48px_1fr] ${
+        isComingSoon ? "opacity-95" : ""
+      }`}
     >
       {/* dot */}
       <div className="relative mt-1 flex h-10 w-10 items-center justify-center md:h-12 md:w-12">
@@ -175,14 +227,24 @@ function Step({
       </div>
 
       {/* card */}
-      <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/85 p-4 shadow-sm transition group-hover:shadow-md">
-        <div className="text-sm font-semibold text-zinc-900">{title}</div>
+      <div
+        className={`overflow-hidden rounded-2xl border bg-white/85 p-4 shadow-sm transition group-hover:shadow-md ${
+          isComingSoon ? "border-amber-400 bg-amber-50/95" : "border-zinc-200"
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <div className="text-sm font-semibold text-zinc-900">{title}</div>
+          {isComingSoon && (
+            <span className="rounded-md bg-amber-400/20 px-2 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-amber-300">
+              Coming soon
+            </span>
+          )}
+        </div>
         <p className="mt-1 text-sm leading-relaxed text-zinc-700">{body}</p>
       </div>
     </motion.li>
   );
 }
-
 function Pill({
   icon,
   label,
@@ -204,10 +266,11 @@ function Pill({
     </div>
   );
 }
+
 function Tip() {
   return (
     <p className="text-xs text-zinc-500">
-      Tip: Features are rolling out gradually. “Paste → Extract” will be available soon!
+      Tip: Features are rolling out gradually. Docs, Word, and Notion support will be added soon!
     </p>
   );
 }
@@ -217,12 +280,12 @@ function CTA() {
     <button
       type="button"
       disabled
-      className="group inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3.5 py-2 text-sm font-medium text-zinc-400 shadow-sm cursor-not-allowed"
+      className="group inline-flex items-center gap-2 rounded-xl border border-amber-400 bg-amber-50 px-3.5 py-2 text-sm font-medium text-amber-700 shadow-sm cursor-not-allowed"
       aria-label="Coming soon"
       title="Coming soon"
     >
-      Try Paste → Extract
-      <span className="ml-1 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700">
+      Try Docs → Extract
+      <span className="ml-1 rounded-md bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700 ring-1 ring-amber-300">
         Coming soon
       </span>
     </button>
