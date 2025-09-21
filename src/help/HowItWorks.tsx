@@ -173,7 +173,7 @@ function StatusChip({ backendOk }: { backendOk?: boolean }) {
       ].join(" ")}
     >
       <PlugZap className="h-3.5 w-3.5" />
-      {ok ? "Backend connected" : "Backend pending"}
+      {ok ? "Connected" : "Pending"}
     </span>
   );
 }
