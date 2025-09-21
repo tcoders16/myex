@@ -2,8 +2,6 @@
 import { motion } from "framer-motion";
 import {
   PlugZap,
-  FileText,
-  CalendarCheck,
   CheckCircle2,
   ShieldCheck,
   Sparkles,

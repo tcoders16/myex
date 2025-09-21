@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap');
+    text { font-family: 'Chakra Petch', sans-serif; font-weight: 700; }
+  </style>
+
+  <!-- Outer white circle -->
+  <circle cx="28" cy="28" r="28" fill="white" stroke="black" stroke-opacity="0.7" stroke-width="2"/>
+
+  <!-- Inner black circle -->
+  <circle cx="28" cy="28" r="20" fill="black" />
+
+  <!-- Centered text -->
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        fill="white" font-size="14">
+    ex
+  </text>
+</svg>
