@@ -85,12 +85,7 @@ export default function AppHeader({
             <LinkEl to="/" className="group">
               <div className="flex items-center gap-3">
                 {/* logo blob */}
-
-
                   <Logo/>
-
-
-
                 <div className="leading-tight">
                   <div className="text-lg font-semibold tracking-tight text-zinc-900 group-hover:opacity-90">
                     {productName}
@@ -104,7 +99,11 @@ export default function AppHeader({
           </div>
 
           {/* Right: Connect popover */}
-          <CalendarConnectPopover />
+
+          <div className="flex items-center gap-2">
+            <GuideButton />
+            <CalendarConnectPopover />
+          </div>
         </div>
       </div>
     </header>
@@ -112,6 +111,19 @@ export default function AppHeader({
 }
 
 /* ------------------------ Subcomponents ------------------------ */
+
+// "/guide"
+function GuideButton() {
+  return (
+    <a
+      href="/guide"
+      className="inline-flex items-center gap-x-[1rem] rounded-lg border border-zinc-200 bg-white/70 px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm transition hover:bg-white hover:shadow"
+    >
+       Install Guide
+    </a>
+  );
+}
+
 
 function BackButton({
   navigate,

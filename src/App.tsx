@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import AppHeader from "./components/chrome/AppHeader";
 import AppFooter from "./components/chrome/AppFooter";
 import Test from "./pages/Test";
+import ScreenStudio from "./pages/ScreenStudio"
 import NotificationPanel from "./components/home/NotificationPanel";
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home font="chakra-petch-regular" />} />
         <Route path="/test" element={<Test />} />
+        <Route path= "/guide" element={<ScreenStudio font="chakra-petch-regular" />} />
       </Routes>
 
       <AppFooter />
