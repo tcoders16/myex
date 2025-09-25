@@ -59,3 +59,20 @@
   font-weight: 700;
   font-style: italic;
 }
+
+
+/* Global UI scale controlled by <html data-ui="..."> */
+@layer base {
+  html[data-ui='sm'] { font-size: 14px; }  /* compact */
+  html[data-ui='md'] { font-size: 16px; }  /* default */
+  html[data-ui='lg'] { font-size: 18px; }  /* comfortable */
+  html[data-ui='xl'] { font-size: 20px; }  /* presentation */
+}
+
+/* Helpful utility so long labels don’t push layout on small devices */
+.truncate-soft {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60vw;
+}

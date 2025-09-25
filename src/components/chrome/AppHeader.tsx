@@ -1,10 +1,8 @@
-// src/components/chrome/AppHeader.tsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Link as LinkIcon, X } from "lucide-react";
+import { ArrowLeft, Link as LinkIcon, X, Minus, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import ConnectGoogleCalendar from "../calendar/ConnectGoogleCalendar";
 import Logo from "../logo/Logo";
-
 
 /* Optional React Router support (falls back gracefully) */
 let LinkComp: any = null;
@@ -65,7 +63,7 @@ export default function AppHeader({
   return (
     <header
       className={[
-        "chakra-petch-regular sticky top-0 z-40", // ✅ font applied globally
+        "chakra-petch-regular sticky top-0 z-40",
         "backdrop-blur supports-[backdrop-filter]:bg-white/55",
         "border-b",
         scrolled
@@ -73,24 +71,23 @@ export default function AppHeader({
           : "bg-white/40 border-zinc-100",
       ].join(" ")}
     >
-      {/* thin gradient line */}
-      <div className="pointer-events-none h-[2px] w-full bg-gradient-to-r from-indigo-400/40 via-sky-400/40 to-emerald-400/40" />
+      {/* thin gradient line (hidden on very small screens) */}
+      <div className="pointer-events-none h-[2px] w-full bg-gradient-to-r from-indigo-400/40 via-sky-400/40 to-emerald-400/40 hidden sm:block" />
 
-      <div className="mx-auto max-w-6xl px-5 py-3">
-        <div className="flex items-center justify-between gap-3">
+      <div className="mx-auto max-w-6xl px-4 sm:px-5 py-2.5 sm:py-3">
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
           {/* Left: Back + Brand */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <BackButton navigate={navigate} backTo={backTo} show={resolvedShowBack} />
 
-            <LinkEl to="/" className="group">
-              <div className="flex items-center gap-3">
-                {/* logo blob */}
-                  <Logo/>
-                <div className="leading-tight">
-                  <div className="text-lg font-semibold tracking-tight text-zinc-900 group-hover:opacity-90">
+            <LinkEl to="/" className="group min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <Logo />
+                <div className="leading-tight min-w-0">
+                  <div className="text-base sm:text-lg font-semibold tracking-tight text-zinc-900 group-hover:opacity-90 truncate-soft">
                     {productName}
                   </div>
-                  <div className="text-[11px] uppercase tracking-wider text-zinc-500">
+                  <div className="hidden sm:block text-[11px] uppercase tracking-wider text-zinc-500">
                     {productTagline}
                   </div>
                 </div>
@@ -98,9 +95,9 @@ export default function AppHeader({
             </LinkEl>
           </div>
 
-          {/* Right: Connect popover */}
-
-          <div className="flex items-center gap-2">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <UiScaleControl />
             <GuideButton />
             <CalendarConnectPopover />
           </div>
@@ -112,18 +109,56 @@ export default function AppHeader({
 
 /* ------------------------ Subcomponents ------------------------ */
 
+// UI scale: controls html[data-ui] = sm | md | lg | xl
+function UiScaleControl() {
+  const order = ["sm", "md", "lg", "xl"] as const;
+  const [scale, setScale] = useState<"sm" | "md" | "lg" | "xl">(
+    (document.documentElement.getAttribute("data-ui") as any) || "md"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-ui", scale);
+    localStorage.setItem("ui-scale", scale);
+  }, [scale]);
+
+  const bump = (dir: 1 | -1) => {
+    const i = order.indexOf(scale);
+    const ni = Math.min(order.length - 1, Math.max(0, i + dir));
+    setScale(order[ni]);
+  };
+
+  return (
+    <div className="hidden xs:flex items-center rounded-lg border border-zinc-200 bg-white/70 shadow-sm">
+      <button
+        onClick={() => bump(-1)}
+        className="p-1.5 px-2 text-zinc-700 hover:bg-white rounded-l-lg"
+        aria-label="Decrease UI size"
+      >
+        <Minus className="h-4 w-4" />
+      </button>
+      <span className="px-2 text-xs text-zinc-600 w-8 text-center uppercase">{scale}</span>
+      <button
+        onClick={() => bump(1)}
+        className="p-1.5 px-2 text-zinc-700 hover:bg-white rounded-r-lg"
+        aria-label="Increase UI size"
+      >
+        <Plus className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
 // "/guide"
 function GuideButton() {
   return (
     <a
       href="/guide"
-      className="inline-flex items-center gap-x-[1rem] rounded-lg border border-zinc-200 bg-white/70 px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm transition hover:bg-white hover:shadow"
+      className="inline-flex items-center rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm font-medium text-zinc-700 shadow-sm transition hover:bg-white hover:shadow max-sm:hidden"
     >
-       Install Guide
+      Install Guide
     </a>
   );
 }
-
 
 function BackButton({
   navigate,
@@ -202,7 +237,7 @@ function CalendarConnectPopover() {
           />
         </span>
         <LinkIcon className="h-4 w-4" />
-        {btnLabel}
+        <span className="hidden xs:inline">{btnLabel}</span>
       </motion.button>
 
       {open && (
@@ -219,9 +254,7 @@ function CalendarConnectPopover() {
           <div className="pointer-events-none absolute -top-2 right-6 h-4 w-4 rotate-45 rounded-sm border-l border-t border-zinc-200 bg-white/90" />
 
           <div className="flex items-center justify-between pb-2">
-            <div className="text-sm font-semibold text-zinc-900">
-              Connect Calendar
-            </div>
+            <div className="text-sm font-semibold text-zinc-900">Connect Calendar</div>
             <button
               onClick={() => setOpen(false)}
               className="rounded-md p-1 text-zinc-500 transition hover:bg-zinc-100"
@@ -242,4 +275,11 @@ function CalendarConnectPopover() {
       )}
     </div>
   );
+}
+
+/* Utility to avoid title overflow on small screens */
+declare global {
+  interface HTMLElementTagNameMap {
+    "span-truncate-soft": HTMLSpanElement;
+  }
 }
