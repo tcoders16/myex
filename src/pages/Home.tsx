@@ -14,7 +14,7 @@ import NoteBigCompany from "../components/bigFirms/NoteBigCompany";
 import ExtensionDownload from "../components/extension/Download";
 // import GithubTerminalFeed from "../components/fun/GithubTerminalFeed";
 
-// ✅ Import the new component
+// Import the new component
 
 
 export default function Home({ font }: { font: string }) {
