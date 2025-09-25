@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Link as LinkIcon, X, Minus, Plus } from "lucide-react";
+import { ArrowLeft, Link as LinkIcon, X, Minus, Plus, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import ConnectGoogleCalendar from "../calendar/ConnectGoogleCalendar";
 import Logo from "../logo/Logo";
@@ -153,9 +153,11 @@ function GuideButton() {
   return (
     <a
       href="/guide"
-      className="inline-flex items-center rounded-lg border border-zinc-200 bg-white/70 px-3 py-2 text-sm font-medium text-zinc-700 shadow-sm transition hover:bg-white hover:shadow max-sm:hidden"
+      className="inline-flex items-center rounded-lg border border-zinc-200 bg-white/70 px-2.5 sm:px-3 py-2 text-sm font-medium text-zinc-700 shadow-sm transition hover:bg-white hover:shadow"
+      aria-label="Install Guide"
     >
-      Install Guide
+      <BookOpen className="h-4 w-4 sm:mr-1" />
+      <span className="hidden sm:inline">Install Guide</span>
     </a>
   );
 }
